@@ -1,0 +1,15 @@
+{/* <Routes>
+                        {router.map((route, index) => {
+                            return (
+                            route.component && (
+                                <Route
+                                    key={index}
+                                    path={route.path}
+                                    element={<route.component />}
+                                />
+                            ));
+                        })}
+                        <Route path="/" element={<Wel/>} />
+                        <Route path="admin/dashboard" element={<Dashboard/>} />
+                        <Route path="admin/users" element={<ListUsers/>} />
+                    </Routes> */}
