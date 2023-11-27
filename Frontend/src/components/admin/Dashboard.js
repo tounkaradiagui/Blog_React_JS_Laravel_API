@@ -50,7 +50,7 @@ function Dashboard() {
                             <ul className="nav nav-treeview">
 
                                 <li className="nav-item">
-                                    <Link to="/users" className="nav-link">
+                                    <Link to="/admin/users" className="nav-link">
                                         <i className="nav-icon fas fa-user"></i>
                                         <p>
                                             Liste des utilisateurs
@@ -59,7 +59,7 @@ function Dashboard() {
                                 </li>
 
                                 <li className="nav-item">
-                                    <Link to="/roles" className="nav-link">
+                                    <Link to="/admin/roles" className="nav-link">
                                         <i className="nav-icon fas fa-tasks"></i>
                                         <p>
                                             Roles
@@ -68,7 +68,7 @@ function Dashboard() {
                                 </li>
 
                                 <li className="nav-item">
-                                    <Link to="/permissions" className="nav-link">
+                                    <Link to="/admin/permissions" className="nav-link">
                                         <i className="nav-icon fas fa-lock"></i>
                                         <p>
                                             Permissions
@@ -99,7 +99,7 @@ function Dashboard() {
                         <ul className="nav nav-treeview">
 
                             <li className="nav-item">
-                                <Link to="/posts" className="nav-link">
+                                <Link to="/admin/posts" className="nav-link">
                                     <i className="nav-icon fas fa-tags"></i>
                                     <p>
                                         Publications
@@ -108,7 +108,7 @@ function Dashboard() {
                             </li>
 
                             <li className="nav-item">
-                                <Link to="/categories" className="nav-link">
+                                <Link to="/admin/categories/lists" className="nav-link">
                                 <i className="fa fa-list nav-icon"></i>
                                 <p>Catégories</p>
                                 </Link>

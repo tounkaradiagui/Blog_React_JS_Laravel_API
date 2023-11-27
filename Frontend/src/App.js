@@ -12,6 +12,7 @@ import ListRoles from './components/admin/roles/ListRoles';
 import ListPermissions from './components/admin/permissions/ListPermissions';
 import CreatePermissions from './components/admin/permissions/CreatePermissions';
 import CreateRoles from './components/admin/roles/CreateRoles';
+import ListCategory from './components/categories/ListCategory';
 
 
 function App() {
@@ -20,17 +21,18 @@ function App() {
     <div className="App">
          <BrowserRouter>
             <Routes>
-                <Route path="" element = {<Dashboard/>}>
-                  <Route path="/dashboard" element = {<Master/>}></Route>
-                  <Route path="/users" element = {<ListUsers/>}></Route>
-                  <Route path="/roles" element = {<ListRoles/>}></Route>
-                  <Route path="/roles/create" element = {<CreateRoles/>}></Route>
-                  <Route path="/permissions" element = {<ListPermissions/>}></Route>
-                  <Route path="/permissions/create" element = {<CreatePermissions/>}></Route>
-                </Route>
+                <Route path="" element = {<Welcome/>}/>
                 <Route path="/login" element = {<Login/>}/>
                 <Route path="/register" element = {<Register/>}/>
-                <Route path="/" element = {<Welcome/>}/>
+                <Route path="admin" element = {<Dashboard/>}>
+                  <Route path="dashboard" element = {<Master/>}></Route>
+                  <Route path="users" element = {<ListUsers/>}></Route>
+                  <Route path="roles" element = {<ListRoles/>}></Route>
+                  <Route path="roles/create" element = {<CreateRoles/>}></Route>
+                  <Route path="permissions" element = {<ListPermissions/>}></Route>
+                  <Route path="permissions/create" element = {<CreatePermissions/>}></Route>
+                  <Route path="categories/lists" element = {<ListCategory/>}></Route>
+                </Route>
             </Routes>
         </BrowserRouter>
     </div>

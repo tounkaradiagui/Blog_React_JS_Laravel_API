@@ -1,0 +1,84 @@
+            $table->string('title');
+            $table->string('slug');
+            $table->longText('description');
+            $table->string('meta_title');
+            $table->string('iframe');
+            $table->text('meta_keywords');
+            $table->text('meta_description');
+            $table->tinyInteger('status')->default(0);
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('category_id');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->softDeletes();
+
+
+
+
+            "title"=> $this->faker->title(),
+            "slug"=> $this->faker->unique()->sentence(),
+            "description"=> $this->faker->paragraph(),
+            "image"=> $this->faker->image,
+            "meta_description"=> $this->faker->paragraph(),
+            "meta_title"=> $this->faker->text(),
+            "meta_keywords"=> $this->faker->text(),
+            "iframe"=> $this->faker->text(),
+            "user_id"=> User::all()->random()->id,
+            "category_id"=> Category::all()->random()->id
+
+
+
+            protected $table = 'posts';
+    protected $fillable = [
+        'title',
+        'slug',
+        'description',
+        'iframe',
+        'meta_description',
+        'meta_title',
+        'meta_keywords',
+        'status',
+        'user_id',
+        'category_id'
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
+
+
+
+
+    return [
+            'id' => $this->id,
+            'attributes' => [
+                'title'=> $this->title,
+                'description'=> $this->description,
+                'slug'=> $this->slug,
+                'image'=> $this->image,
+                'meta_description'=> $this->meta_description,
+                'meta_title'=> $this->meta_title,
+                'created_at'=> $this->created_at,
+                'updated_at'=> $this->updated_at,
+            ],
+
+            'relationships' => [
+                'user' => [
+                    'id' => $this->user->id,
+                    'name' => $this->user->name,
+                    'email' => $this->user->email,
+                ],
+                'category' => [
+                    'id' => $this->category->id,
+                    'name' => $this->category->name,
+                    'slug' => $this->category->slug,
+                ],
+            ],
+        ];

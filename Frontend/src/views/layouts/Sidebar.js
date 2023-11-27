@@ -38,7 +38,7 @@ function Sidebar() {
                         <ul className="nav nav-treeview">
 
                             <li className="nav-item">
-                                <Link to="admin/users" className="nav-link">
+                                <Link to="/admin/users" className="nav-link">
                                     <i className="nav-icon fas fa-user"></i>
                                     <p>
                                         Liste des utilisateurs

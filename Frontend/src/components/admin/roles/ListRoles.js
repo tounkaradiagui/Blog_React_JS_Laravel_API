@@ -10,7 +10,7 @@ function ListRoles() {
             <h3 className="card-title">Liste de Rôles</h3>
             <div className="card-tools">
               <div className="input-group float-end">
-                <Link to="/roles/create" className="btn btn-primary float-end"><i className="fa fa-plus-circle mr-2" />Ajouter</Link>
+                <Link to="/admin/roles/create" className="btn btn-primary float-end"><i className="fa fa-plus-circle mr-2" />Ajouter</Link>
               </div>
             </div>
           </div>
