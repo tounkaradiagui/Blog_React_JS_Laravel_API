@@ -9,6 +9,7 @@ use App\Models\Post;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 
 class PostController extends Controller
@@ -61,10 +62,16 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        if(Auth::user()->id !== $post->user_id){
-            return $this->error('', "You don't have permission", 403);
-        }else{
+        if(Auth::user()){
+            // if(Gate::allows('admin-post')){
+            //     return new PostResource($post);
+            // }else{
+            //         return $this->error('', "You don't have permission", 403);
+            //     }
             return new PostResource($post);
+            // return $this->error('', "You don't have permission", 403);
+        }else{
+            return $this->error('', "You don't have permission", 403);
         }
     }
 
@@ -81,12 +88,17 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        if(Auth::user()->id !== $post->user_id){
-            return $this->error('', "You don't have permission", 403);
-        }else{
-
+        if(Auth::user()){
+            // if(Gate::allows('admin') && Gate::allows('author')){
+            //     $post->update($request->all());
+            //     return new PostResource($post);
+            // }else{
+            //     return $this->error('', "You don't have permission", 403);
+            // }
             $post->update($request->all());
             return new PostResource($post);
+        }else{
+            return $this->error('', "You don't have permission", 403);
         }
     }
 
