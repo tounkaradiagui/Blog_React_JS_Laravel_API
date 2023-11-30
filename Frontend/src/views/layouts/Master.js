@@ -10,7 +10,6 @@ import 'admin-lte/plugins/datatables-responsive/css/responsive.bootstrap4.min.cs
 //JS Links from admin-lte
 import 'admin-lte/dist/js/adminlte.min.js'
 import 'admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js'
-import 'admin-lte/dist/js/adminlte.min.js'
 
 //List of components
 // import router from '../../routes/router';
@@ -21,8 +20,8 @@ import 'admin-lte/dist/js/adminlte.min.js'
 function Master() {
   return (
     
-    <section class="content">
-        <div class="container-fluid">                
+    <section className="content">
+        <div className="container-fluid">                
             <h1>Hello</h1>
         </div>
     </section>

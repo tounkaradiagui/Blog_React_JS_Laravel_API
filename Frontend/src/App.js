@@ -3,11 +3,13 @@ import { BrowserRouter, Routes, Route} from "react-router-dom";
 import Master from './views/layouts/Master';
 import Dashboard from './components/admin/Dashboard';
 import ListUsers from './components/admin/users/ListUsers';
-// import Master from './views/layouts/Master';
+
+// import views screens
 import Welcome from './views/frontend/Welcome';
 import Login from './views/auth/Login';
 import Register from './views/auth/Register';
-// import { render } from '@testing-library/react';
+
+// import component screens;
 import ListRoles from './components/admin/roles/ListRoles';
 import ListPermissions from './components/admin/permissions/ListPermissions';
 import CreatePermissions from './components/admin/permissions/CreatePermissions';

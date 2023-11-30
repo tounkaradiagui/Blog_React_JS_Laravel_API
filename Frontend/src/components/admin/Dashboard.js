@@ -3,8 +3,8 @@ import { Link, Outlet } from 'react-router-dom'
 
 function Dashboard() {
   return (
-    <div class="wrapper" id="app">
-        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <div className="wrapper" id="app">
+        <nav className="main-header navbar navbar-expand navbar-white navbar-light">
             <ul className="navbar-nav">
                 <li className="nav-item">
                     <Link className="nav-link" data-widget="pushmenu" to="#" role="button"><i className="fas fa-bars"></i></Link>
@@ -15,7 +15,7 @@ function Dashboard() {
             </ul>   
         </nav>
 
-        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <aside className="main-sidebar sidebar-dark-primary elevation-4">
             <div className="sidebar">
             <div className="user-panel mt-3 pb-3 mb-3 d-flex">
                 <div className="image">
@@ -194,24 +194,24 @@ function Dashboard() {
         </div>
         </aside>
 
-        <div class="content-wrapper" >
-            <div class="content-header">
-                <div class="container-fluid">
-                    <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <h1 class="m-0">Dashboard</h1>
+        <div className="content-wrapper" >
+            <div className="content-header">
+                <div className="container-fluid">
+                    <div className="row mb-2">
+                        <div className="col-sm-6">
+                            <h1 className="m-0">Dashboard</h1>
                         </div>
-                        <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item active">Accueil / Dashboard</li>
+                        <div className="col-sm-6">
+                            <ol className="breadcrumb float-sm-right">
+                                <li className="breadcrumb-item active">Accueil / Dashboard</li>
                             </ol>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <section class="content">
-                <div class="container-fluid">                    
+            <section className="content">
+                <div className="container-fluid">                    
                     <Outlet/>
                 </div>
             </section>
@@ -225,7 +225,7 @@ function Dashboard() {
             </div>
         </footer>
 
-        <aside class="control-sidebar control-sidebar-dark">
+        <aside className="control-sidebar control-sidebar-dark">
         </aside>
     </div>
   )
