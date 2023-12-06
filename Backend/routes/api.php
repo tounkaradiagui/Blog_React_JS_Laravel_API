@@ -24,17 +24,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 // Public routes
-Route::get('/', function() {
-    return view('welcome');
-});
 Route::post('/login', [AuthController::class, "login"])->name('login');
 Route::post('/register', [AuthController::class, "register"])->name('register');
 
 //Protected routes
 Route::group(['middleware' => ['auth:sanctum']], function() {
-    Route::resource('/roles', RoleController::class);
-    Route::resource('/users', UserController::class);
-    Route::resource('/categories', CategoryController::class);
-    Route::resource('/posts', PostController::class);
+    Route::group(['middleware' => ['is_admin']], function() {
+        Route::resource('/roles', RoleController::class);
+        Route::resource('/users', UserController::class);
+        Route::resource('/categories', CategoryController::class);
+        Route::resource('/posts', PostController::class);
+    });
     Route::post('/logout', [AuthController::class, "logout"])->name('logout');
 });

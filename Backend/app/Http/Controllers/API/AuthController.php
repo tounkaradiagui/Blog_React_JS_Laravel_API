@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
@@ -16,51 +17,91 @@ class AuthController extends Controller
 {
     use HttpResponses;
 
+    //  Je souhaiterai les erreurs dans la console si par exemple l'email ou le username existe Voici mon code de API laravel de la function register cidessous.
     public function register(RegisterRequest $request)
     {
-        $request->validated(); //Validate all input
-
-        $user = User::create([  //New user registration
+        $request->validated(); // Valider toutes les entrées
+    
+        // Vérifier si le nom d'utilisateur existe déjà et le générer si nécessaire
+        $username = $this->generateUniqueUsername($request->username);
+    
+        // Enregistrement du nouvel utilisateur
+        $user = User::create([
             'name' => $request->name,
-            'username' => $request->username,
+            'username' => $username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role_id' => 4
+            'role_id' => 4,
         ]);
-
-        return $this->success([ //The success response from my Traits directory
+    
+        return $this->success([
             'status' => 200,
             'username' => $user->username,
             'message' => "Registration successfully",
-            'token' => $user->createToken('API token of ' . $user->email)->plainTextToken //Generate a token for every registered user
+            'token' => $user->createToken('API token of ' . $user->email)->plainTextToken,
         ]);
     }
+    
+    private function generateUniqueUsername($name)
+    {
+        // Supprimer les caractères spéciaux et les espaces du nom
+        $cleanedName = preg_replace('/[^a-zA-Z0-9]/', '', $name);
+    
+        // Générer un nom d'utilisateur initial en prenant les 8 premiers caractères en minuscules
+        $baseUsername = strtolower(substr($cleanedName, 0, 8));
+    
+        $username = $baseUsername;
+        $counter = 1;
+    
+        // Vérifier l'unicité du nom d'utilisateur
+        while (User::where('username', $username)->exists()) {
+            // Si le nom d'utilisateur existe déjà, ajouter un compteur numérique
+            $username = $baseUsername . $counter;
+            $counter++;
+        }
+
+        // Ajouter des messages de journalisation pour le débogage
+        Log::info('Generated username:', ['baseUsername' => $baseUsername, 'counter' => $counter, 'finalUsername' => $username]);
+
+    
+        return $username;
+    }
+    
 
     public function login(LoginRequest $request)
     {
-        $request->validated($request->all());
-
         $credentials = $request->only('email', 'password');
         $user = User::where('email', $request->email)->first();
-
-        if(!Auth::attempt(['email' => $user->email,'password' => $credentials['password']]))
-        {
-            return $this->error('error', 'Credentials do not match', 401);
-        }else{
-            // if(Gate::allows('admin')){
-            //     return "Welcome to your dashboard";
-            // }else{
-                // return "Welcome to WebGenius Solutions";
+    
+        if (!Auth::attempt(['email' => $user->email, 'password' => $credentials['password']])) {
+            return $this->error([
+                'status' => 401,
+                'message' => 'Unauthorized Access! Please check your credentials and try again.',
+            ]);
+        } else {
+            $role = '';
+    
+            if ($user->role_id == 1) {
+                $role = 'admin';
+            } elseif ($user->role_id == 2) {
+                $role = 'editor';
+            } else {
+                $role = 'user';
+            }
+    
+            $tokenResult = $user->createToken($user->token . '_' . $role . '_token_' . $user->username)->plainTextToken;
+    
             return $this->success([
                 'status' => 200,
+                'id' => $user->id,
                 'username' => $user->username,
+                'role'  => $role,
+                'token' => $tokenResult,
                 'message' => "Authenticated successfully",
-                'token' => $user->createToken('API token of ' .$user->email)->plainTextToken
             ]);
-            // }
         }
-
     }
+    
 
     public function logout()
     {

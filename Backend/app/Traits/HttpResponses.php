@@ -14,12 +14,11 @@ trait HttpResponses{
     }
 
     // The error response come from here
-    protected function error($data, $message = "", $status)
+    protected function error($data, $status = 401)
     {
         return response()->json([
-            "error"=> "An error has occurred",
+            "errors"=> "An error has occurred",
             "data"=> $data,
-            "message"=> $message
         ], $status);
     }
 
