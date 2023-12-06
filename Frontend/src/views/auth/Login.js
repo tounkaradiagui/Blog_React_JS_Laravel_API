@@ -9,9 +9,11 @@ function Login() {
 
   const navigate = useNavigate();
 
+
   const handleLogin = (event) => {
     event.preventDefault();
     if(!email || !password ){
+      // If email or password input is empty
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -19,21 +21,56 @@ function Login() {
         footer: "Message d'erreur"
       });
     }else{
-
+      
       const userData = {
         email : email,
         password : password
       };
 
-      console.log(userData);
+      console.log('User Data:',userData);
       
       axios.get('/sanctum/csrf-cookie').then(response => {
         axios.post('/api/login', userData).then(res => {
-          if(res.status === 200){
-            navigate('/admin/dashboard');
-            
-          }else{
-            // Show an alert error pop up message
+          console.log('API Response:', res);
+      
+          if (res.status === 200) {
+            console.log('ID:', res.data.data.id);
+            console.log('Username:', res.data.data.username);
+            console.log('Token:', res.data.data.token);
+      
+            // Mise à jour des données dans localStorage
+            localStorage.setItem('ID', res.data.data.id);
+            localStorage.setItem('USERNAME', res.data.data.username);
+            localStorage.setItem('TOKEN', res.data.data.token);
+      
+            // Vérification du rôle utilisateur
+            const roleId = res.data.data.role_id;
+      
+            if (roleId === 1) {
+              // Si l'utilisateur est un administrateur
+              navigate('/admin/dashboard');
+              Swal.fire({
+                title: "Vous êtes connecté.e !",
+                text: "Bienvenue sur votre Tableau de bord",
+                icon: "success",
+                confirmButtonText: "D'accord",
+                confirmButtonColor: "green",
+                timer: 7500
+              });
+            } else {
+              // Si l'utilisateur n'est pas un administrateur
+              navigate('/');
+              Swal.fire({
+                title: "Félicitations!",
+                text: "Vous êtes connecté.e",
+                icon: "success",
+                confirmButtonText: "D'accord",
+                confirmButtonColor: "green",
+                timer: 7500
+              });
+            }
+          } else {
+            // Afficher un message d'erreur en cas de statut différent de 200
             Swal.fire({
               title: "Error!",
               text: "Une erreur s'est produite ! Veuillez réessayer",
@@ -43,13 +80,16 @@ function Login() {
               timer: 7500
             });
           }
-          console.log(res);
+        }).catch(error => {
+          // Gestion des erreurs lors de la requête
+          console.error('API Error:', error);
+          // handleApiErrors(error);
         });
-
+      
         setEmail("");
         setPassword("");
-
-      });     
+      });
+          
     }
   }
 
@@ -61,6 +101,7 @@ function Login() {
         <form onSubmit={handleLogin}>
           <div className="input-group mb-3">
             <input type="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} className="form-control" placeholder="Email"/>
+            {/* <div className="error-message red">{errors.email}</div> */}
             <div className="input-group-append">
               <div className="input-group-text">
                 <span className="fas fa-envelope"></span>
@@ -69,6 +110,7 @@ function Login() {
           </div>
           <div className="input-group mb-3">
             <input type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} className="form-control" placeholder="Password" />
+            {/* <div className="error-message">{errors.password}</div> */}
             <div className="input-group-append">
               <div className="input-group-text">
                 <span className="fas fa-lock"></span>

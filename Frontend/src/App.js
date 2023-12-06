@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route} from "react-router-dom";
-import Master from './views/layouts/Master';
+import Master from './views/layouts/admin/Master';
 import Dashboard from './components/admin/Dashboard';
 import ListUsers from './components/admin/users/ListUsers';
 
@@ -16,27 +16,30 @@ import CreatePermissions from './components/admin/permissions/CreatePermissions'
 import CreateRoles from './components/admin/roles/CreateRoles';
 import ListCategory from './components/categories/ListCategory';
 
+// import './components/assets/css/theme.css'
+
+
 
 function App() {
   
   return (
     <div className="App">
-         <BrowserRouter>
-            <Routes>
-                <Route path="" element = {<Welcome/>}/>
-                <Route path="/login" element = {<Login/>}/>
-                <Route path="/register" element = {<Register/>}/>
-                <Route path="admin" element = {<Dashboard/>}>
-                  <Route path="dashboard" element = {<Master/>}></Route>
-                  <Route path="users" element = {<ListUsers/>}></Route>
-                  <Route path="roles" element = {<ListRoles/>}></Route>
-                  <Route path="roles/create" element = {<CreateRoles/>}></Route>
-                  <Route path="permissions" element = {<ListPermissions/>}></Route>
-                  <Route path="permissions/create" element = {<CreatePermissions/>}></Route>
-                  <Route path="categories/lists" element = {<ListCategory/>}></Route>
-                </Route>
-            </Routes>
-        </BrowserRouter>
+      <BrowserRouter>
+        <Routes>
+          <Route path="" element = {<Welcome/>}/>
+          <Route path="/login" element = {<Login/>}/>
+          <Route path="/register" element = {<Register/>}/>
+          <Route path="admin" element = {<Dashboard/>}>
+            <Route path="dashboard" element = {<Master/>}></Route>
+            <Route path="users" element = {<ListUsers/>}></Route>
+            <Route path="roles" element = {<ListRoles/>}></Route>
+            <Route path="roles/create" element = {<CreateRoles/>}></Route>
+            <Route path="permissions" element = {<ListPermissions/>}></Route>
+            <Route path="permissions/create" element = {<CreatePermissions/>}></Route>
+            <Route path="categories/lists" element = {<ListCategory/>}></Route>
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }

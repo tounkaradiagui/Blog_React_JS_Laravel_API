@@ -12,6 +12,15 @@ function Register() {
 
   const navigate = useNavigate();
 
+  // const [errors, setErrors] = useState({
+  //   username: '',
+  //   name: '',
+  //   email: '',
+  //   password: '',
+  //   password_confirmation: '',
+  // });
+  
+
   const handleSubmit = (event) => {
     event.preventDefault();
     // Check if all inputs are filled
@@ -43,36 +52,81 @@ function Register() {
       // Laravel sanctum API - csrf-token setting to true in axios files
       axios.get('/sanctum/csrf-cookie').then(response => {
 
-        axios.post('/api/register', userData).then(res => {
-          
-          // Check the status code from the API
-          if (res.status === 200){
-            // Show a success message and redirect to login page if it's true
-            navigate('/login');
-
+        axios.post('/api/register', userData)
+        .then(res => {
+          // Check if there are specific error messages for username and email
+          if (res.data.errors) {
+            // Afficher les erreurs spécifiques à l'utilisateur
+            const usernameError = res.data.errors.username ? res.data.errors.username[0] : null;
+            const emailError = res.data.errors.email ? res.data.errors.email[0] : null;
+      
             Swal.fire({
-              title: "Félicitaions!",
+              title: "Erreur!",
+              text: "Une erreur s'est produite lors de l'inscription. Veuillez vérifier les informations fournies.",
+              icon: "error",
+              confirmButtonText: "D'accord",
+              confirmButtonColor: "red",
+              timer: 7500
+            });
+      
+            // Afficher les erreurs spécifiques à l'utilisateur
+            if (usernameError) {
+              console.log('Username Error:', usernameError);
+              // Afficher le message d'erreur d'username à l'utilisateur
+      
+            } else if (emailError) {
+              console.log('Email Error:', emailError);
+              // Afficher le message d'erreur d'email à l'utilisateur
+            }
+          } else {
+            // La requête a été traitée avec succès
+            navigate('/login');
+      
+            Swal.fire({
+              title: "Félicitations!",
               text: "Votre inscription a été effectuée! Veuillez vous connecter",
               icon: "success",
               confirmButtonText: "D'accord",
               confirmButtonColor: "green",
               timer: 7500
             });
+          }
 
-          } else {
-            // Show an alert error pop up message
+          // Réinitialisez les erreurs après un succès
+          // setErrors({
+          //   username: '',
+          //   name: '',
+          //   email: '',
+          //   password: '',
+          //   password_confirmation: '',
+          // });
+      
+          console.log(res);
+        }).catch(error => {
+          console.error('API Error:', error);
+      
+          // Check if there are specific error messages for username and email
+          if (error.response && error.response.data && error.response.data.errors) {
+            const usernameError = error.response.data.errors.username ? error.response.data.errors.username[0] : null;
+            const emailError = error.response.data.errors.email ? error.response.data.errors.email[0] : null;
+
+            // Generate a pop up alert message if there are any error
             Swal.fire({
-              title: "Error!",
-              text: "Une erreur s'est produite ! Veuillez réessayer",
+              title: "Erreur!",
+              text: "Une erreur inattendue s'est produite lors de l'inscription. Veuillez réessayer plus tard.",
               icon: "error",
               confirmButtonText: "D'accord",
               confirmButtonColor: "red",
               timer: 7500
             });
-          }
 
-          console.log(res);
+            // Log specific error messages
+            console.log(usernameError);
+            console.log(emailError);
+          }
         });
+      
+  
         // Setted all input fields to null after registered
         setUsername("");
         setName("");
@@ -92,14 +146,21 @@ function Register() {
 
         <form onSubmit={handleSubmit}>
           <div className="input-group mb-3">
-            <input type="text" className="form-control" onChange={(e) => setUsername(e.target.value)} value={username} name="username" placeholder="Username" />
+            <input
+              type="text"
+              className="form-control"
+              onChange={(e) => setUsername(e.target.value)}
+              value={username}
+              name="username"
+              placeholder="Username"
+            />
             <div className="input-group-append">
               <div className="input-group-text">
-                  <span className="fas fa-user"></span>
+                <span className="fas fa-user"></span>
               </div>
             </div>
+            {/* <div class="error-message"><span>{errors.username}</span></div> */}
           </div>
-
           <div className="input-group mb-3">
             <input type="text" className="form-control" onChange={(e) => setName(e.target.value)} value={name} name="name" placeholder="Full Name" />
             <div className="input-group-append">
